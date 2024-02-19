@@ -1,0 +1,75 @@
+version: '3.8'
+services:
+  rabbitmq:
+    image: rabbitmq:3.13.0-rc.4-management
+    container_name: rabbitmq
+    hostname: rabbitmq
+    volumes:
+      - /var/lib/rabbitmq
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    env_file:
+      - .env
+
+  auth:
+    build:
+      context: ./
+      dockerfile: ./apps/auth/Dockerfile
+    env_file:
+      - .env
+    depends_on:
+      - rabbitmq
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    command: npm run start:dev auth
+
+  status:
+    build:
+      context: ./
+      dockerfile: ./apps/status/Dockerfile
+    env_file:
+      - .env
+    depends_on:
+      - rabbitmq
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    command: npm run start:dev status
+
+  api-gateway:
+    build:
+      context: ./
+      dockerfile: ./apps/api/Dockerfile
+    env_file:
+      - .env
+    depends_on:
+      - rabbitmq
+      - auth
+      - status
+    ports:
+      - '9000:9000'
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+
+    command: npm run start:dev api
+
+  postgres:
+    image: postgres:latest
+    env_file:
+      - .env
+    ports:
+      - '5432:5432'
+    # volumes:
+    #   # - ./db/data:/var/lib/postgresql/data
+
+  postgres_admin:
+    image: dpage/pgadmin4:latest
+    ports:
+      - '5050:80'
+    depends_on:
+      - postgres
+    env_file:
+      - .env
