@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
@@ -7,8 +6,11 @@ import { CommonModule, CommonService, DbModule, UsersRepo } from '@app/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtGuard } from './jwt.guard';
-import { JwtStrategy } from './jwt-strategy';
+import { JwtGuard } from './guards/jwt.guard';
+import { JwtStrategy } from './strategies/jwt-strategy';
+import { GoogleStrategy } from './strategies/google-strategy';
+import { GoogleOauthGuard } from './guards/google-oauth.guard';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
@@ -23,6 +25,7 @@ import { JwtStrategy } from './jwt-strategy';
       envFilePath: './.env',
       isGlobal: true,
     }),
+    PassportModule,
     CommonModule,
     DbModule,
     TypeOrmModule.forFeature([UserEntity]),
@@ -33,7 +36,9 @@ import { JwtStrategy } from './jwt-strategy';
     { provide: 'UsersRepoInterface', useClass: UsersRepo },
     { provide: 'CommonServiceInterface', useClass: CommonService },
     JwtGuard,
+    GoogleOauthGuard,
     JwtStrategy,
+    GoogleStrategy,
   ],
 })
 export class AuthModule {}

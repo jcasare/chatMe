@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { NestFactory } from '@nestjs/core';
 import { StatusModule } from './status.module';
 import { ConfigService } from '@nestjs/config';

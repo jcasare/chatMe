@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import {
   ConflictException,
   Inject,
@@ -90,10 +89,6 @@ export class AuthService implements AuthServiceInterface {
     return this.userRepo.findAll();
   }
 
-  // async deleteUsers() {
-  //   return this.userRepo.delete();
-  // }
-
   async verifyJwt(jwt: string): Promise<{ exp: number }> {
     if (!jwt) {
       throw new UnauthorizedException();
@@ -105,4 +100,5 @@ export class AuthService implements AuthServiceInterface {
       throw new UnauthorizedException();
     }
   }
+  async googleCallback() {}
 }

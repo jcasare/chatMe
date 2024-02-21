@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { Controller } from '@nestjs/common';
 import { Ctx, MessagePattern, RmqContext } from '@nestjs/microservices';
 import { CommonService } from '@app/common';

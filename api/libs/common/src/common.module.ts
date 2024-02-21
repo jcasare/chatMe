@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { DynamicModule, Module } from '@nestjs/common';
 import { CommonService } from './common.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';

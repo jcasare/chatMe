@@ -1,5 +1,4 @@
-/* eslint-disable prettier/prettier */
-import { JwtRequest } from './jwt-req.interface';
+import { JwtRequest } from '../jwt-req.interface';
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 

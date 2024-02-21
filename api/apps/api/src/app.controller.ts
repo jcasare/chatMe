@@ -1,4 +1,5 @@
 import { AuthGuard } from '@app/common';
+import { AuthGuard as GoogleAuthGuard } from '@nestjs/passport';
 import {
   Body,
   Controller,
@@ -6,9 +7,11 @@ import {
   Get,
   Inject,
   Post,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
+//import { GoogleOauthGuard } from 'apps/auth/src/guards/google-oauth.guard';
 
 @Controller()
 export class AppController {
@@ -57,5 +60,17 @@ export class AppController {
         password,
       },
     );
+  }
+
+  @Get('auth/google')
+  async googleLogin() {
+    return this.authService.send({ cmd: 'google-login' }, {});
+  }
+
+  @Get('auth/google/callback')
+  @UseGuards(GoogleAuthGuard('google'))
+  async googleLoginRedirect(@Req() req: any) {
+    return req.user;
+    //return this.authService.send({ cmd: 'google-login-callback' }, {});
   }
 }

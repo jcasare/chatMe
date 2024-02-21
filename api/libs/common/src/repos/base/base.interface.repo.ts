@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { DeepPartial, FindManyOptions, FindOneOptions } from 'typeorm';
 
 export interface BaseInterfaceRepo<T> {

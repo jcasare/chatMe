@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { RmqContext, RmqOptions } from '@nestjs/microservices';
 
 export interface CommonServiceInterface {
